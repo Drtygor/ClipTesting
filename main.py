@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from transformers import AutoProcessor, AutoModelForZeroShotImageClassification
 import base64
@@ -23,8 +24,19 @@ app.add_middleware(
 class ImageData(BaseModel):
     image: str
 
-    
-    
+ 
+
+@app.post("/test/")
+def test(body: ImageData):
+    print(body.image)
+
+    with open(f"gen-image.jpg", "rb") as image_file:
+        base64_image = base64.b64encode(image_file.read()).decode()
+    data = {
+        "image": base64_image,
+        "label": f"Gray T-Shirt"
+    }
+    return JSONResponse(content = data)
 
 @app.post("/image2text/")
 def image2text(body: ImageData):
@@ -39,7 +51,7 @@ def image2text(body: ImageData):
 
 
 
-    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Shorts"]
+    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Shorts", "Long-Sleeve Shirt"]
 
     colors = ["Black", "Red", "Blue", "Yellow", "Green", "White", "Brown", "Gray", "Purple"]
 
@@ -80,9 +92,17 @@ def image2text(body: ImageData):
     print(color_output)
 
     color = max(color_output, key=color_output.get)
-    promt = f"Men's outfit with {color} {clothing_item} clothes only no person"
+    promt = f"Realistic Men's outfit arrangement with {color} {clothing_item} clothes only"
     print(promt)
     generateimage(promt)
-    #return color + " " + clothing_item
-    return FileResponse(f"gen-image.jpg")
+
+    with open(f"gen-image.jpg", "rb") as image_file:
+        base64_image = base64.b64encode(image_file.read()).decode()
+        
+    data = {
+        "image": base64_image,
+        "label": f"{color} {clothing_item}"
+    }
+    return JSONResponse(content = data)
+     
 
