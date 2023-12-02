@@ -51,7 +51,7 @@ def image2text(body: ImageData):
 
 
 
-    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Shorts", "Long-Sleeve Shirt"]
+    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Shorts", "Long-Sleeve Shirt", "Sweatshirt"]
 
     colors = ["Black", "Red", "Blue", "Yellow", "Green", "White", "Brown", "Gray", "Purple"]
 
@@ -98,7 +98,7 @@ def image2text(body: ImageData):
 
     with open(f"gen-image.jpg", "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode()
-        
+
     data = {
         "image": base64_image,
         "label": f"{color} {clothing_item}"
