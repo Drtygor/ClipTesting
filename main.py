@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from transformers import AutoProcessor, AutoModelForZeroShotImageClassification
 import base64
 from io import BytesIO
 from PIL import Image
+from model import generateimage
 
 #Allowing every front-end application 
 origins = ["*"]
@@ -20,6 +22,12 @@ app.add_middleware(
 
 class ImageData(BaseModel):
     image: str
+
+@app.get("/image-from-text/{promt}")
+async def root(promt):
+    print(promt)
+    generateimage(promt)
+    return FileResponse(f"gen-image.jpg")
 
 @app.post("/image2text")
 def image2text(body: ImageData):
