@@ -23,14 +23,12 @@ app.add_middleware(
 class ImageData(BaseModel):
     image: str
 
-@app.get("/image-from-text/{promt}")
-async def root(promt):
-    print(promt)
-    generateimage(promt)
-    return FileResponse(f"gen-image.jpg")
+    
+    
 
-@app.post("/image2text")
+@app.post("/image2text/")
 def image2text(body: ImageData):
+    
     base64_string = body.image 
     image_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(image_data))
@@ -82,7 +80,9 @@ def image2text(body: ImageData):
     print(color_output)
 
     color = max(color_output, key=color_output.get)
-
-    return color + " " + clothing_item
-
+    promt = f"Men's clothing {color} {clothing_item} clothes only no person"
+    print(promt)
+    generateimage(promt)
+    #return color + " " + clothing_item
+    return FileResponse(f"gen-image.jpg")
 
