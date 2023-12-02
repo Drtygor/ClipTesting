@@ -39,9 +39,9 @@ def image2text(body: ImageData):
 
 
 
-    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Dress"]
+    features = ["Jacket", "T-Shirt", "Shoe", "Pants", "Hats", "Glasses", "Shorts"]
 
-    colors = ["Black", "Red", "Blue", "Yellow", "Green", "White", "Brown", "Gray"]
+    colors = ["Black", "Red", "Blue", "Yellow", "Green", "White", "Brown", "Gray", "Purple"]
 
     inputs = processor(
         text=features,
@@ -80,7 +80,7 @@ def image2text(body: ImageData):
     print(color_output)
 
     color = max(color_output, key=color_output.get)
-    promt = f"Men's clothing {color} {clothing_item} clothes only no person"
+    promt = f"Men's outfit with {color} {clothing_item} clothes only no person"
     print(promt)
     generateimage(promt)
     #return color + " " + clothing_item

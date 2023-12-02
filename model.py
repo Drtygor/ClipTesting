@@ -5,7 +5,7 @@
 #################################################################################################################
 
 # Your PAT (Personal Access Token) can be found in the portal under Authentification
-PAT = '1400c09c515d454eb5ef9d0562a081c0'
+PAT = '7af786f5b42849aeb16968e67d46b759'
 # Specify the correct user_id/app_id pairings
 # Since you're making inferences outside your app's scope
 USER_ID = 'stability-ai'
